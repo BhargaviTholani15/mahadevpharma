@@ -1,0 +1,36 @@
+# =============================================================================
+# Root .htaccess — Hostinger shared hosting (flat upload)
+#
+# Security model:
+#   1. Every request is unconditionally rewritten into the inner public_html/.
+#   2. So direct access to /vendor/foo.php becomes /public_html/vendor/foo.php,
+#      which doesn't exist on disk → 404. Framework code stays unreachable.
+#   3. Sensitive dotfiles like .env are also blocked by <FilesMatch> as a
+#      belt-and-braces measure.
+#
+# DO NOT add folder-blocking RewriteRules for 'vendor', 'app', etc — those
+# regex patterns also match Laravel application URLs like /vendor/dashboard
+# (the vendor portal) and return 403 to real users.
+# =============================================================================
+
+# ─── Block sensitive dotfiles and project files ─────────────────────────────
+<FilesMatch "^\.env|^\.htaccess$|composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml|README\.md|.*\.sqlite|.*\.sql|.*\.log|.*\.yml|.*\.yaml|vite\.config\.js">
+    Require all denied
+</FilesMatch>
+
+# Allow this .htaccess to be read by Apache itself (the FilesMatch above
+# blocks client reads; Apache's own config reads aren't affected).
+
+# ─── Block directory listing ─────────────────────────────────────────────────
+Options -Indexes
+
+# ─── Rewrite every request into the inner public_html/ ─────────────────────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Don't re-rewrite requests already inside /public_html/
+    RewriteCond %{REQUEST_URI} !^/public_html/
+
+    # Everything → public_html/
+    RewriteRule ^(.*)$ public_html/$1 [L]
+</IfModule>

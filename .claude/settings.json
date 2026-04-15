@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php -v)",
+      "Bash(rm .htaccess)",
+      "Bash(mv public_html/index.php public_html/favicon.ico public_html/logo.png public_html/robots.txt .)",
+      "Bash(mv public_html/build .)",
+      "Bash(mv public_html/.htaccess .)",
+      "Bash(rmdir public_html)",
+      "Bash(rm -rf vendor composer.lock)",
+      "Bash(composer install:*)",
+      "Bash(mkdir public:*)",
+      "Bash(mv index.php favicon.ico logo.png robots.txt build public/)",
+      "Bash(mkdir public_html)",
+      "Bash(mv public/index.php public/favicon.ico public/logo.png public/robots.txt public/build public_html/)",
+      "Bash(mv public/.htaccess public_html/)",
+      "Bash(rmdir public:*)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8000/)",
+      "Bash(kill %1)",
+      "Bash(wait)",
+      "Bash(powershell.exe -Command \"Remove-Item -Path 'public' -Force -Recurse\")",
+      "Bash(taskkill //F //IM php.exe)",
+      "Bash(php -r \"echo mysqli_connect\\('127.0.0.1','root','root'\\) ? 'MySQL OK' : 'MySQL FAIL'; echo PHP_EOL;\")",
+      "Bash(mysql -u root -proot -e \"CREATE DATABASE IF NOT EXISTS pharmaflow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\")",
+      "Bash(php -r ':*)"
+    ]
+  }
+}
